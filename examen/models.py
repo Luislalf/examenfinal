@@ -29,8 +29,8 @@ class Producto(models.Model):
         return '%s %s' % (self.nombre, self.codigo)
 
 class Venta(models.Model):
-    DPI   = models.ManyToManyField(Usuario, through='ActuacionVenta')
-    producto   = models.ManyToManyField(Producto, through='ActuacionVenta')
+    DPI = models.ForeignKey(Usuario,on_delete=models.CASCADE,)
+    productos   = models.ManyToManyField(Producto, through='ActuacionVenta')
     cantidad = models.IntegerField()
     fecha_venta= models.DateTimeField(default=timezone.now)
 
@@ -39,7 +39,6 @@ class Actuacion (models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
 
 class ActuacionVenta (models.Model):
-    DPI = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
 
@@ -54,10 +53,6 @@ class ActuacionInLineVenta(admin.TabularInline):
 
 class MarcaAdmin(admin.ModelAdmin):
     inlines = (ActuacionInLine,)
-
-class UsuarioAdmin(admin.ModelAdmin):
-    inlines = (ActuacionInLineVenta,)
-
 
 class ProductoAdmin (admin.ModelAdmin):
     inlines = (ActuacionInLine,)
