@@ -19,7 +19,7 @@ class Marca(models.Model):
         return self.nombre
 
 class Producto(models.Model):
-    codigo    = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(7)])
+    codigo    = models.CharField(max_length=7)
     nombre    = models.CharField(max_length=60)
     foto = models.ImageField(upload_to='fotos/')
     marca   = models.ManyToManyField(Marca, through='Actuacion')
